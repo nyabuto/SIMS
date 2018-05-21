@@ -35,7 +35,13 @@
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
     <link href="assets/css/themify-icons.css" rel="stylesheet">
-
+    <style>
+       .DG {stroke: #086508;} 
+       .LG {stroke: #33d933;} 
+       .Y {stroke: yellow;} 
+       .R {stroke: red;} 
+        
+        </style>
 </head>
 <body>
 
@@ -152,6 +158,100 @@
                         </div>
                     </div>
                 </div>
+                
+                
+                   <div class="row">
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title" id="section1">CEE#: F_1.01[001]</h4>
+                                <p class="category">HIV Quality Management/Quality Improvement (QM/QI) System [ALL FACILITIES]</p>
+                            </div>
+                            <div class="content">
+                                <canvas  id="area_1"  height="450" width="450" class="ct-chart ct-perfect-fourth"></canvas>
+
+                                <div class="footer">
+                                    <div class="chart-legend">
+                                        <i class="fa fa-circle" style="color: #086508;"></i> D. Green
+                                        <i class="fa fa-circle" style="color: #33d933;"></i> L. Green
+                                        <i class="fa fa-circle" style="color: yellow;"></i> Yellow
+                                        <i class="fa fa-circle " style="color: red;"></i> Red
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title" id="section2">CEE#: F_1.03[003] </h4>
+                                <p class="category">Risk Reduction Counseling and Condom Availability [ALL FACILITIES]<br><br></p>
+                            </div>
+                            <div class="content">
+                                <canvas id="area_2"  height="450" width="450"  class="ct-chart ct-perfect-fourth"></canvas>
+
+                                <div class="footer">
+                                    <div class="chart-legend">
+                                         <i class="fa fa-circle" style="color: #086508;"></i> D. Green
+                                        <i class="fa fa-circle" style="color: #33d933;"></i> L. Green
+                                        <i class="fa fa-circle" style="color: yellow;"></i> Yellow
+                                        <i class="fa fa-circle " style="color: red;"></i> Red
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title" id="section3">CEE#: F_1.09[009] </h4>
+                                <p class="category">Data Quality Assurance [ALL FACILITIES]<br><br><br></p>
+                            </div>
+                            <div class="content">
+                                <canvas id="area_3"  height="450" width="450"  class="ct-chart ct-perfect-fourth"></canvas>
+
+                                <div class="footer">
+                                    <div class="chart-legend">
+                                        <i class="fa fa-circle" style="color: #086508;"></i> D. Green
+                                        <i class="fa fa-circle" style="color: #33d933;"></i> L. Green
+                                        <i class="fa fa-circle" style="color: yellow;"></i> Yellow
+                                        <i class="fa fa-circle " style="color: red;"></i> Red
+                                    </div>
+                                     
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title" id="section4">'CEE#: F_2.11[031]</h4>
+                                <p class="category">ART Monitoring [C&T GEN POP]<br><br><br></p>
+                            </div>
+                            <div class="content">
+                                <canvas id="area_4"  height="450" width="450"  class="ct-chart ct-perfect-fourth"></canvas>
+
+                                <div class="footer">
+                                    <div class="chart-legend">
+                                        <i class="fa fa-circle" style="color: #086508;"></i> D. Green
+                                        <i class="fa fa-circle" style="color: #33d933;"></i> L. Green
+                                        <i class="fa fa-circle" style="color: yellow;"></i> Yellow
+                                        <i class="fa fa-circle " style="color: red;"></i> Red
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                       
+                    </div>
+                
+                
+                
             </div>
         </div>
         
@@ -171,13 +271,11 @@
 	<script src="assets/js/bootstrap-checkbox-radio.js"></script>
 
 	<!--  Charts Plugin -->
-	<script src="assets/js/chartist.min.js"></script>
+	            <!--  Chart js -->
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"></script>
 
     <!--  Notifications Plugin    -->
     <script src="assets/js/bootstrap-notify.js"></script>
-
-    <!--  Google Maps Plugin    -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
 
     <!-- Paper Dashboard Core javascript and methods for Demo purpose -->
 	<script src="assets/js/paper-dashboard.js"></script>
@@ -197,11 +295,12 @@
             var assessments,average_score,no_counties,no_facilities;
              assessments=0,average_score=0,no_counties=0,no_facilities=0;
         var data=raw_data.data;
-        
+        var section_score;
             if( data.assessments!=null){assessments = data.assessments;}
             if( data.average_score!=null){average_score = data.average_score;}  
             if( data.no_counties!=null){no_counties = data.no_counties;}  
             if( data.no_facilities!=null){no_facilities = data.no_facilities;}  
+            if( data.section_score!=null){section_score = data.section_score;}  
             
             average_score = Math.round((average_score*100)/100)+"%"; 
             
@@ -209,11 +308,130 @@
             $("#average_score").html(average_score);
             $("#no_counties").html(no_counties);
             $("#no_facilities").html(no_facilities);
-           
+         
+        
+        for(var i=0;i<section_score.length;i++){
+            
+            var DG,LG,Y,R;
+            DG = section_score[i].DG;
+            LG = section_score[i].LG;
+            Y = section_score[i].Y;
+            R = section_score[i].R;
+            var position = i+1;
+      
+          var data_chart = {
+  labels: ["Dark Green", "Light Green","Yellow","Red"],
+  datasets: [{
+    fill: true,
+    backgroundColor: [
+      '#086508',
+      '#33d933',
+      'yellow',
+      'red'
+    ],
+    data: [DG, LG, Y,R],
+    borderColor: ['black', 'black','black','black'],
+    borderWidth: [0.1, 0.1,0.1,0.1]
+  }]
+};  
+
+draw_chart(data_chart,position);
+
+     } //end of loop
+     
+     
+     
+     
     }
     });
     }
     
     </script>
 
+	<script type="text/javascript">
+    	function draw_chart(data,pos){
+var canvas = document.getElementById("area_"+pos);
+var ctx = canvas.getContext('2d');
+
+Chart.defaults.global.defaultFontColor = 'black';
+Chart.defaults.global.defaultFontSize = 16;
+var theHelp = Chart.helpers;         
+var options = {
+  legend: {
+    display: false,
+    
+    // generateLabels changes from chart to chart,  check the source, 
+    // this one is from the doughut :
+    // https://github.com/chartjs/Chart.js/blob/master/src/controllers/controller.doughnut.js#L42
+    labels: {
+      generateLabels: function(chart) {
+        var data = chart.data;
+        if (data.labels.length && data.datasets.length) {
+          return data.labels.map(function(label, i) {
+            var meta = chart.getDatasetMeta(0);
+            var ds = data.datasets[0];
+            var arc = meta.data[i];
+            var custom = arc && arc.custom || {};
+            var getValueAtIndexOrDefault = theHelp.getValueAtIndexOrDefault;
+            var arcOpts = chart.options.elements.arc;
+            var fill = custom.backgroundColor ? custom.backgroundColor : getValueAtIndexOrDefault(ds.backgroundColor, i, arcOpts.backgroundColor);
+            var stroke = custom.borderColor ? custom.borderColor : getValueAtIndexOrDefault(ds.borderColor, i, arcOpts.borderColor);
+            var bw = custom.borderWidth ? custom.borderWidth : getValueAtIndexOrDefault(ds.borderWidth, i, arcOpts.borderWidth);
+              return {
+              // And finally : 
+              text: ds.data[i] + "% of the time " + label,
+              fillStyle: fill,
+              strokeStyle: stroke,
+              lineWidth: bw,
+              hidden: isNaN(ds.data[i]) || meta.data[i].hidden,
+              index: i
+            };
+          });
+        }
+        return [];
+      }
+    }
+  }
+};
+
+// Chart declaration:
+var myPieChart = new Chart(ctx, {
+  type: 'pie',
+  data: data,
+  options: options
+});
+
+console.log(myPieChart.generateLegend());
+
+
+
+Chart.plugins.register({
+  afterDatasetsDraw: function(chartInstance, easing) {
+    // To only draw at the end of animation, check for easing === 1
+    var ctx = chartInstance.chart.ctx;
+    chartInstance.data.datasets.forEach(function(dataset, i) {
+      var meta = chartInstance.getDatasetMeta(i);
+      if (!meta.hidden) {
+        meta.data.forEach(function(element, index) {
+          // Draw the text in black, with the specified font
+          ctx.fillStyle = 'black';
+          var fontSize = 20;
+          var fontStyle = 'normal';
+          var fontFamily = 'Helvetica Neue';
+          ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
+          // Just naively convert to string for now
+          var dataString = dataset.data[index].toString();
+          // Make sure alignment settings are correct
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          var padding = 5;
+          var position = element.tooltipPosition();
+          ctx.fillText(dataString, position.x, position.y - (fontSize / 2) - padding);
+        });
+      }
+    });
+  }
+});
+        }
+	</script>
 </html>

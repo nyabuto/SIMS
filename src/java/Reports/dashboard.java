@@ -120,10 +120,36 @@ int dg,lg,y,r;
             JSONArray jarr = new JSONArray();
         }
         
+        JSONArray jarray_section = new JSONArray();
+        
+        String section_score = "SELECT area.id AS id,CONCAT(IFNULL(code,''),IFNULL(title,'')) AS title," +
+                                "COUNT(CASE WHEN color_code='DG' THEN 1 END ) AS 'DG'," +
+                                "COUNT(CASE WHEN color_code='LG' THEN 1 END ) AS 'LG'," +
+                                "COUNT(CASE WHEN color_code='Y' THEN 1 END ) AS 'Y'," +
+                                "COUNT(CASE WHEN color_code='R' THEN 1 END ) AS 'R' " +
+                                "FROM area " +
+                                "LEFT JOIN area_score ON area_score.area_id=area.id " +
+                                "LEFT JOIN assessment ON area_score.assessment_id=assessment.id " +
+                                "LEFT JOIN subpartnera ON subpartnera.SubPartnerID=assessment.facility_id " +
+                                "GROUP by id";
+        conn.rs = conn.st.executeQuery(section_score);
+        while(conn.rs.next()){
+            JSONObject obj = new JSONObject();
+            obj.put("id", conn.rs.getString(1));
+            obj.put("section",  conn.rs.getString(2));
+            obj.put("DG",  conn.rs.getString(3));
+            obj.put("LG",  conn.rs.getString(4));
+            obj.put("Y",  conn.rs.getString(5));
+            obj.put("R",  conn.rs.getString(6));
+            
+           jarray_section.add(obj);
+        }
+        
            js_fn_obj.put("assessments", no_assessments);
            js_fn_obj.put("average_score", average_score);
            js_fn_obj.put("no_counties", no_counties);
            js_fn_obj.put("no_facilities", no_facilities);
+           js_fn_obj.put("section_score", jarray_section);
            
            if(conn.pst!=null){conn.pst.close();}
            finalobj.put("data", js_fn_obj);

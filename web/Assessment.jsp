@@ -160,8 +160,7 @@
                                                                 </div>
 		                                    	</div>
 		                                	</div>
-                                                            
-                                                            
+         
                                                     <div class="col-sm-5  col-sm-offset-1">
 		                                    	<div class="form-group">
 		                                        	<label>Assessor Team Lead<font color="red">*</font></label>

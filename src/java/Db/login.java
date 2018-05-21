@@ -70,10 +70,10 @@ int status,level,code;
         session.setAttribute("timestamp", timestamp);
         session.setAttribute("gender", gender);
         if(level == 1){
-         nextPage =   "Assessment.jsp"; 
+         nextPage =   "Dashboard.jsp"; 
         }
         else{
-        nextPage =  "Assessment.jsp";    
+        nextPage =  "Dashboard.jsp";    
         }
         
        }
