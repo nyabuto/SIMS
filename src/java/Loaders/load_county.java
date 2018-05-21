@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Db;
+package Loaders;
 
+import Db.dbConn;
+import com.mysql.jdbc.Connection;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -15,51 +17,37 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 /**
  *
  * @author GNyabuto
  */
-public class load_profile extends HttpServlet {
+public class load_county extends HttpServlet {
 HttpSession session;
-String user_id,message,fullname,email,phone,gender;
-int code=0;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-             session = request.getSession();
-          dbConn conn = new dbConn();
-          
-          if(session.getAttribute("id")!=null){
-              user_id = session.getAttribute("id").toString();
-              
-             String getdetails = "SELECT fullname,email,phone,gender FROM user WHERE id=?";
-             conn.pst = conn.conn.prepareStatement(getdetails);
-             conn.pst.setString(1, user_id);
-              conn.rs = conn.pst.executeQuery();
-              if(conn.rs.next()){
-               fullname = conn.rs.getString("fullname");
-               phone = conn.rs.getString("phone");
-               email = conn.rs.getString("email");
-               gender = conn.rs.getString("gender");   
-              }
-              
-          }
-          else{
-      
-          }
-          
+           session = request.getSession();
+           dbConn conn = new dbConn();
+           
             JSONObject finalobj = new JSONObject();
-            JSONObject obj = new JSONObject();
-            obj.put("fullname", fullname);
-            obj.put("phone", phone);
-            obj.put("email", email);
-            obj.put("gender", gender);
+            JSONArray jarray = new JSONArray();
             
-            if(conn.pst!=null){conn.pst.close();}
-            finalobj.put("data", obj);
+            String get_counties = "SELECT CountyID, County FROM county ORDER BY County ";
+            conn.rs = conn.st.executeQuery(get_counties);
+            while(conn.rs.next()){
+                JSONObject obj = new JSONObject();
+                obj.put("id", conn.rs.getString(1));
+                obj.put("name", conn.rs.getString(2));
+                
+                jarray.add(obj);
+            }
+            if(conn.st!=null){conn.st.close();}
+            finalobj.put("data", jarray);
             out.println(finalobj);
         }
     }
@@ -79,7 +67,7 @@ int code=0;
     try {
         processRequest(request, response);
     } catch (SQLException ex) {
-        Logger.getLogger(load_profile.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(load_county.class.getName()).log(Level.SEVERE, null, ex);
     }
     }
 
@@ -97,7 +85,7 @@ int code=0;
     try {
         processRequest(request, response);
     } catch (SQLException ex) {
-        Logger.getLogger(load_profile.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(load_county.class.getName()).log(Level.SEVERE, null, ex);
     }
     }
 
@@ -111,4 +99,18 @@ int code=0;
         return "Short description";
     }// </editor-fold>
 
+    public static void close(Connection con)
+    {
+        if (con != null)
+        {
+            try
+            {
+                con.close();
+            }
+            catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
 }

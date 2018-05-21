@@ -70,10 +70,10 @@ int status,level,code;
         session.setAttribute("timestamp", timestamp);
         session.setAttribute("gender", gender);
         if(level == 1){
-         nextPage =   "Dashboard.jsp"; 
+         nextPage =   "Assessment.jsp"; 
         }
         else{
-        nextPage =  "Dashboard.jsp";    
+        nextPage =  "Assessment.jsp";    
         }
         
        }
@@ -84,6 +84,7 @@ int status,level,code;
            session.setAttribute("message", message);
        }
         
+       if(conn.pst!=null){conn.pst.close();}
         response.sendRedirect(nextPage);
     }
 

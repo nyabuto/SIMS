@@ -36,12 +36,12 @@
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
     <link href="assets/css/themify-icons.css" rel="stylesheet">
-
-    <link href='http://fonts.googleapis.com/css?family=Oleo+Script' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Berkshire+Swash' rel='stylesheet' type='text/css'>
 <style>
 .login-logo {
-   font: 400 50px/1.0 'Oleo Script', Helvetica, sans-serif;
+font: 200 70px/1.2 'Berkshire Swash', Helvetica, sans-serif;
   color: #2b2b2b;
+  /*text-shadow: 1px 1px 0px #ededed, 4px 4px 0px rgba(0,0,0,0.15);*/
   text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
 }
 .login-form{
@@ -74,7 +74,7 @@
                                    <input type="password" name="password" id="password" class="form-control border-input" placeholder="Password">
                                </div>
 
-                               <button type="submit" class="btn btn-success btn-flat m-b-30 m-t-30">Login</button>
+                               <button type="submit" class="btn btn-success btn-flat m-b-30 m-t-30" >Login</button>
 
                            </form>
                        </div>

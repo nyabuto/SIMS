@@ -33,7 +33,7 @@
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
     <link href="assets/css/themify-icons.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="assets/css/chosen/chosen.css">
     
 </head>
 <body>
@@ -65,7 +65,7 @@
 									    <div class="progress-bar" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="4" style="width: 15%;"></div>
 									</div>
 									<ul id="header_info">
-			                            <li>
+                                                                            <li>
 											<a href="#basic_info" data-toggle="tab">
 												<div class="icon-circle">
 													<i class="ti-map"></i>
@@ -112,7 +112,7 @@
 		                            <div class="tab-pane" id="basic_info">
 		                            	<div class="row">
 		                                	<div class="col-sm-12">
-                                                            <h5 class="info-text" style="text-align: left;" id="area_title_0"> Select details appropriately</h5>
+                                                            <h5 class="info-text" style="text-align: left;" id="area_title_0"> Select details appropriately. <b>Fields marked <font color="red"> *</font> are mandatory</b></h5>
 		                            		</div>
 		                                	<div class="col-sm-5">
 		                                    	<div class="form-group">
@@ -134,8 +134,8 @@
                                                             
                                                          <div class="col-sm-5">   
 		                                        <div class="form-group">
-		                                            <label>Health Facility</label><br>
-		                                            <select name="facility" id="facility" class="form-control">
+		                                            <label>Health Facility<font color="red">*</font></label><br>
+		                                            <select name="facility" required id="facility" class="form-control  chosen-select">
 		                                                <option disabled="" selected="">- Health Facility -</option>
 		                                            </select>
                                                      </div>
@@ -143,9 +143,9 @@
                                                        
                                                     <div class="col-sm-5  col-sm-offset-1">
 		                                    	<div class="form-group">
-		                                        	<label>Assessor Name</label>
+		                                        	<label>Assessor Name<font color="red">*</font></label>
 		                                        	<div class="input-group">
-		                                            	<input type="text" id="assessor_name" name="assessor_name" class="form-control" placeholder="Assessor Name">
+		                                            	<input type="text" required id="assessor_name" name="assessor_name" class="form-control" placeholder="Assessor Name">
                                                                 <span class="input-group-addon"></span>
 		                                            	</div>
 		                                    	</div>
@@ -153,9 +153,9 @@
                                                        
                                                     <div class="col-sm-5">
 		                                    	<div class="form-group">
-		                                        	<label>Assessment Date</label>
+		                                        	<label>Assessment Date<font color="red">*</font></label>
 		                                        	<div class="input-group">
-		                                            	<input type="text" id="assessment_date" name="assessment_date" class="form-control" placeholder="Assessment Date">
+		                                            	<input type="date" required id="assessment_date" name="assessment_date" class="form-control" placeholder="Assessment Date">
 		                                            	<span class="input-group-addon"></span>
                                                                 </div>
 		                                    	</div>
@@ -164,9 +164,9 @@
                                                             
                                                     <div class="col-sm-5  col-sm-offset-1">
 		                                    	<div class="form-group">
-		                                        	<label>Assessor Team Lead</label>
+		                                        	<label>Assessor Team Lead<font color="red">*</font></label>
 		                                        	<div class="input-group">
-		                                            	<input type="text" id="assessor_team_lead" name="assessor_team_lead" class="form-control" placeholder="A    ssessor Team Lead">
+		                                            	<input type="text" required id="assessor_team_lead" name="assessor_team_lead" class="form-control" placeholder="Assessor Team Lead">
 		                                            	<span class="input-group-addon"></span>
                                                                 </div>
 		                                    	</div>
@@ -276,11 +276,9 @@
 		            </div> <!-- wizard container -->
 		        </div>
 	        </div> <!-- row -->
-			
-<!--                    
-			</div>-->
+			<!--</div>-->
 		</div>
-
+                
 		<!--footer here-->
                 <%@include file="footer.jsp" %>
     </div>
@@ -292,12 +290,16 @@
 	<script src="wizard/assets/js/jquery-2.2.4.min.js" type="text/javascript"></script>
 	<script src="wizard/assets/js/bootstrap.min.js" type="text/javascript"></script>
 	<script src="wizard/assets/js/jquery.bootstrap.wizard.js" type="text/javascript"></script>
-
+        
+        <!--  Notifications Plugin    -->
+        <script src="assets/js/bootstrap-notify.js"></script>
+    
 	<!--  Plugin for the Wizard -->
 	<script src="wizard/assets/js/paper-bootstrap-wizard.js" type="text/javascript"></script>
 
 	<!--  More information about jquery.validate here: http://jqueryvalidation.org/	 -->
 	<script src="wizard/assets/js/jquery.validate.min.js" type="text/javascript"></script>
+        <script src="assets/js/chosen/chosen.jquery.min.js"></script>
         
  <script type="text/javascript" language="en">
    function numbers(evt){
@@ -348,7 +350,12 @@
             output += '<option value="'+id+'">'+name+'</option> ';     
          }
             $("#county").html(output);
-
+            $("#county").chosen("destroy");
+            $("#county").chosen({
+                disable_search_threshold: 5,
+                no_results_text: "Oops, no county found!",
+                width: "100%"
+            });
     }
     });
     }    
@@ -370,7 +377,12 @@
             output += '<option value="'+id+'">'+name+'</option> ';     
          }
             $("#sub_county").html(output);
-
+            $("#sub_county").chosen("destroy");
+            $("#sub_county").chosen({
+                disable_search_threshold: 5,
+                no_results_text: "Oops, no sub county found!",
+                width: "100%"
+            });
     }
     });
     }    
@@ -394,7 +406,12 @@
             output += '<option value="'+id+'">'+mfl_code+' - '+name+'</option> ';     
          }
             $("#facility").html(output);
-
+            $("#facility").chosen("destroy");
+            $("#facility").chosen({
+                disable_search_threshold: 5,
+                no_results_text: "Oops, no facility found!",
+                width: "100%"
+            });
     }
     });
     }    
@@ -402,12 +419,27 @@
            </script>
  <script>
    $(document).ready(function() {
-    load_data();    
+//    load_data();
+    $("#facility").change(function(){
+    check_load_form();    
+    });
+    $("#assessment_date").change(function(){
+    check_load_form();    
+    });
     } );
 
+    function check_load_form(){
+          var facility_id = $("#facility").val();
+        var assessment_date = $("#assessment_date").val();
+        if(assessment_date!=="" && facility_id!==""){
+         load_data(); 
+        }
+    }
     function load_data(){
+        var facility_id = $("#facility").val();
+        var assessment_date = $("#assessment_date").val();
             $.ajax({
-        url:'loadform',
+        url:'loadform?facility_id='+facility_id+'&&asessment_date='+assessment_date,
         type:"post",
         dataType:"json",
         success:function(raw_data){
@@ -474,7 +506,8 @@
           else{
            child_quiz+="<br><input type='checkbox' id='indic_"+id_1+"' name='"+indicator_score_id_1+"'  onchange='manage_child();' > "+question_1;    
           }
-              }   
+              }
+              manage_child();
               }
               var output_res = "";
               if(id!=20){
@@ -504,7 +537,7 @@
                             '</tr>';
            $("#tdata_"+area_id).html(quiz_output); 
            
-            if(area_has_data==0){  
+//            if(area_has_data==0){  
                         
           if(i==0){
              disable_all(2,8);
@@ -520,7 +553,7 @@
               disable_all(20,21);
           }
           
-         }
+//         }
             }
     }
     });
@@ -726,9 +759,6 @@
               
               $("#indic_response_"+pos-1).attr("required", true);
               
-//              $("#indic_"+pos+2).attr("required", true); 
-//              $("#indic_"+pos+3).attr("required", true); 
-//              $("#indic_"+pos+4).attr("required", true); 
 
                 }
                 else if(pos==4){
@@ -737,10 +767,7 @@
               $("#indic_"+pos+4).attr("disabled", true); 
               
               $("#indic_response_"+pos-1).attr("required", false);
-              
-//              $("#indic_"+pos+2).attr("required", false); 
-//              $("#indic_"+pos+3).attr("required", false); 
-//              $("#indic_"+pos+4).attr("required", false);        
+                    
                 }
             }
             
@@ -782,5 +809,52 @@
         $("#"+area_id).attr("style", "background-color: "+color+";");
     }
     </script>   
-           
+    
+    
+<!--    
+                         <script>
+                 $(document).ready(function() {
+                var color = Math.floor((Math.random() * 4) + 1);
+
+                   $.notify({
+                           icon: "ti-announcement",
+                           message: "Welcome to <b>Paper Dashboard</b> - a beautiful freebie for every web developer."
+
+                   },{
+                       timer: 4000,
+                       placement: {
+                           from: 'top',
+                           align: 'center'
+                       }
+                   });
+        } ); 
+                </script>-->
+        		
+                <%if(session.getAttribute("save_form")!=null){%>
+
+            <script>
+                 $(document).ready(function() {
+                var color = Math.floor((Math.random() * 4) + 1);
+
+                   $.notify({
+                           icon: "ti-announcement",
+                           message: '<%=session.getAttribute("save_form").toString()%>'
+
+                   },{
+                       timer: 4000,
+                       placement: {
+                           from: 'top',
+                           align: 'center'
+                       }
+                   });
+        } ); 
+                </script>
+
+                <%
+                session.removeAttribute("save_form");
+                    }
+                %>
+                
+                     
+                        
 </html>

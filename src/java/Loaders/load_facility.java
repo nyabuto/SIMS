@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Db;
+package Loaders;
 
+import Db.dbConn;
+import com.mysql.jdbc.Connection;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -15,51 +17,54 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 /**
  *
  * @author GNyabuto
  */
-public class load_profile extends HttpServlet {
+public class load_facility extends HttpServlet {
 HttpSession session;
-String user_id,message,fullname,email,phone,gender;
-int code=0;
+String county_id,sub_county_id,query;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-             session = request.getSession();
-          dbConn conn = new dbConn();
-          
-          if(session.getAttribute("id")!=null){
-              user_id = session.getAttribute("id").toString();
-              
-             String getdetails = "SELECT fullname,email,phone,gender FROM user WHERE id=?";
-             conn.pst = conn.conn.prepareStatement(getdetails);
-             conn.pst.setString(1, user_id);
-              conn.rs = conn.pst.executeQuery();
-              if(conn.rs.next()){
-               fullname = conn.rs.getString("fullname");
-               phone = conn.rs.getString("phone");
-               email = conn.rs.getString("email");
-               gender = conn.rs.getString("gender");   
-              }
-              
-          }
-          else{
-      
-          }
-          
+            session = request.getSession();
+           dbConn conn = new dbConn();
+           
             JSONObject finalobj = new JSONObject();
-            JSONObject obj = new JSONObject();
-            obj.put("fullname", fullname);
-            obj.put("phone", phone);
-            obj.put("email", email);
-            obj.put("gender", gender);
+            JSONArray jarray = new JSONArray();
+            if(request.getParameter("sub_county")!=null && !request.getParameter("sub_county").equals("") && !request.getParameter("sub_county").equals("null")){
+             sub_county_id = request.getParameter("sub_county");
+            
+            query = "SELECT SubPartnerID,SubpartnerNom,CentreSanteId FROM subpartnera WHERE DistrictID='"+sub_county_id+"' AND subpartnera.active=1  ORDER BY SubpartnerNom";
+            }
+            else if(request.getParameter("county")!=null && !request.getParameter("county").equals("") && !request.getParameter("county").equals("null")){
+             county_id = request.getParameter("county");
+            
+            query = "SELECT SubPartnerID,SubpartnerNom,CentreSanteId FROM subpartnera "
+                    + "LEFT JOIN district ON subpartnera.DistrictID=district.DistrictID  "
+                    + "LEFT JOIN county ON district.CountyID = County.CountyID "
+                    + "WHERE County.CountyID='"+county_id+"' AND subpartnera.active=1 ORDER BY SubpartnerNom ";
+            }
+            else{
+            query = "SELECT SubPartnerID,SubpartnerNom,CentreSanteId FROM subpartnera WHERE subpartnera.active=1  ORDER BY SubpartnerNom";
+            }
+            
+            conn.rs = conn.st.executeQuery(query);
+            while(conn.rs.next()){
+                JSONObject obj = new JSONObject();
+                obj.put("id", conn.rs.getString(1));
+                obj.put("name", conn.rs.getString(2));
+                obj.put("mfl_code", conn.rs.getString(3));
+                
+                jarray.add(obj);
+            }
             
             if(conn.pst!=null){conn.pst.close();}
-            finalobj.put("data", obj);
+            finalobj.put("data", jarray);
             out.println(finalobj);
         }
     }
@@ -79,7 +84,7 @@ int code=0;
     try {
         processRequest(request, response);
     } catch (SQLException ex) {
-        Logger.getLogger(load_profile.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(load_facility.class.getName()).log(Level.SEVERE, null, ex);
     }
     }
 
@@ -97,7 +102,7 @@ int code=0;
     try {
         processRequest(request, response);
     } catch (SQLException ex) {
-        Logger.getLogger(load_profile.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(load_facility.class.getName()).log(Level.SEVERE, null, ex);
     }
     }
 

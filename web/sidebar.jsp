@@ -47,6 +47,12 @@
                         <p>Indicators</p>
                     </a>
                 </li>
+                <li>
+                    <a href="AssessmentReports.jsp">
+                        <i class="ti-pie-chart"></i>
+                        <p>Excel Report</p>
+                    </a>
+                </li>
                   <li>
                     <a href="user_profile.jsp">
                         <i class="ti-user"></i>

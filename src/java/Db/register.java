@@ -99,6 +99,9 @@ MessageDigest m;
             
             JSONObject data = new JSONObject();
             data.put("data", obj);
+            
+            if(conn.pst!=null){conn.pst.close();}
+            
             out.println(data);
         }
     }

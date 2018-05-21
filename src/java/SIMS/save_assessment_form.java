@@ -6,6 +6,7 @@
 package SIMS;
 
 import Db.dbConn;
+import com.mysql.jdbc.Connection;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -24,7 +25,7 @@ public class save_assessment_form extends HttpServlet {
 HttpSession session;
 String facility,assessor_name,assessment_date,assessor_team_lead;
 String assess_id,area_score_id,indicator_score_id,area_value,indicator_value;
-String color,area_id,indicator_id;
+String color,area_id,indicator_id,message;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
@@ -37,7 +38,7 @@ String color,area_id,indicator_id;
         assessor_team_lead = request.getParameter("assessor_team_lead");
         
         assess_id = facility+"_"+assessment_date.replace("-", "");
-        
+        message = "<font color=\"red\"><b>Data not saved</b></font>";
         String assossor_info = "REPLACE INTO assessment SET id=?,facility_id=?,assessor_name=?,assessment_date=?,assessor_team_lead=?";
         conn.pst = conn.conn.prepareStatement(assossor_info);
         conn.pst.setString(1, assess_id);
@@ -84,11 +85,16 @@ String color,area_id,indicator_id;
         conn.pst.setString(4, indicator_value);
         
         conn.pst.executeUpdate();
+        message = "<b>Form Saved successfully</b>";
        }
         
        }
      
-       
+        if(conn.pst!=null){conn.pst.close();}
+        if(conn.st!=null){conn.st.close();}
+        if(conn.st1!=null){conn.st1.close();}
+        
+       session.setAttribute("save_form", message);
        response.sendRedirect("Assessment.jsp");
     }
 
@@ -157,5 +163,5 @@ String color,area_id,indicator_id;
         
         return color_;
     }
-    
+   
 }

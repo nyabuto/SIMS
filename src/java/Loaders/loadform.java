@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package SIMS;
+package Loaders;
 
 import Db.dbConn;
+import com.mysql.jdbc.Connection;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -40,12 +41,12 @@ String assess_id;
             JSONArray jarray = new JSONArray();
            
            
-//           facility_id = request.getParameter("facility_id");
-//           assessment_date = request.getParameter("asessment_date");
-           facility_id = "403";
-           assessment_date ="2018-01-01";
+           facility_id = request.getParameter("facility_id");
+           assessment_date = request.getParameter("asessment_date");
+//           facility_id = "403";
+//           assessment_date ="2018-01-01";
            assess_id = facility_id+"_"+assessment_date.replace("-", "");
-           
+            System.out.println("Assess id : "+assess_id);
            String getAreas = "SELECT area_id, area_code, area_title, area_standard, area_instruction, area_comments,html_id,color, area_active, " +
                             "area_score_id,color_code,SUM(has_data) AS has_data " +
                             "FROM( " +
@@ -172,6 +173,9 @@ String assess_id;
             jarray.add(obj_areas);
            } 
            
+           if(conn.pst!=null){conn.pst.close();}
+           if(conn.pst1!=null){conn.pst1.close();}
+           if(conn.pst2!=null){conn.pst2.close();}
            finalobj.put("data", jarray);
           
             out.println(finalobj);

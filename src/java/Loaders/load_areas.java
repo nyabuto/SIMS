@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package SIMS;
+package Loaders;
 
 import Db.dbConn;
 import java.io.IOException;
@@ -23,35 +23,44 @@ import org.json.simple.JSONObject;
  *
  * @author GNyabuto
  */
-public class load_subcounty extends HttpServlet {
-HttpSession session;
-String county_id,query;
+public class load_areas extends HttpServlet {
+    HttpSession session;
+    String id,code,title,standard,instructions,comments,is_active;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-           session = request.getSession();
-           dbConn conn = new dbConn();
-           
+            session = request.getSession();
+            dbConn conn = new dbConn();
+            
             JSONObject finalobj = new JSONObject();
             JSONArray jarray = new JSONArray();
-            if(request.getParameter("county")!=null && !request.getParameter("county").equals("") &&  !request.getParameter("county").equals("null") ){
-             county_id = request.getParameter("county");
             
-            query = "SELECT DistrictID,DistrictNom FROM district WHERE CountyID='"+county_id+"' AND active=1 ORDER BY DistrictNom";
-            }
-            else{
-            query = "SELECT DistrictID,DistrictNom FROM district WHERE active=1 ORDER BY DistrictNom ";    
-            }
-            System.out.println("query : "+query);
-            conn.rs = conn.st.executeQuery(query);
+            String get_data = "SELECT id,IFNULL(code,'') AS code,IFNULL(title,'') AS title, "
+                    + "IFNULL(standard,'') AS standard,IFNULL(instructions,'') AS instructions,"
+                    + "IFNULL(comments,'') AS comments,is_active FROM area";
+            conn.rs = conn.st.executeQuery(get_data);
             while(conn.rs.next()){
-                JSONObject obj = new JSONObject();
-                obj.put("id", conn.rs.getString(1));
-                obj.put("name", conn.rs.getString(2));
-                
-                jarray.add(obj);
+             id = conn.rs.getString("id");
+             code = conn.rs.getString("code");
+             title = conn.rs.getString("title");
+             standard = conn.rs.getString("standard");
+             instructions = conn.rs.getString("instructions");
+             comments = conn.rs.getString("comments");
+             is_active = conn.rs.getString("is_active"); 
+             
+             JSONObject obj = new JSONObject();
+             obj.put("id", id);
+             obj.put("code", code);
+             obj.put("title", title);
+             obj.put("standard", standard);
+             obj.put("instructions", instructions);
+             obj.put("comments", comments);
+             obj.put("is_active", is_active);
+             
+             jarray.add(obj);
             }
+            
             
             finalobj.put("data", jarray);
             out.println(finalobj);
@@ -70,11 +79,11 @@ String county_id,query;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    try {
-        processRequest(request, response);
-    } catch (SQLException ex) {
-        Logger.getLogger(load_subcounty.class.getName()).log(Level.SEVERE, null, ex);
-    }
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(load_areas.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -88,11 +97,11 @@ String county_id,query;
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    try {
-        processRequest(request, response);
-    } catch (SQLException ex) {
-        Logger.getLogger(load_subcounty.class.getName()).log(Level.SEVERE, null, ex);
-    }
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(load_areas.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

@@ -50,19 +50,115 @@
 
 		<div class="content">
             <div class="container-fluid">
-                <div class="card card-map">
-					<div class="header">
-                        <h4 class="title">Body Header</h4>
+                <div class="row">
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="card">
+                            <div class="content">
+                                <div class="row">
+                                    <div class="col-xs-5">
+                                        <div class="icon-big icon-warning text-center">
+                                            <i class="ti-bell"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-7">
+                                        <div class="numbers">
+                                            <p>No. of Assessments</p>
+                                           <div id="assessments"> 0</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="footer">
+                                    <hr />
+                                    <div class="stats">
+                                        <i class="ti-upload"></i> <a href="Assessment.jsp">Perform Assessment</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-			Body details here
-				</div>
-			</div>
-		</div>
-
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="card">
+                            <div class="content">
+                                <div class="row">
+                                    <div class="col-xs-5">
+                                        <div class="icon-big icon-success text-center">
+                                            <i class="ti-wallet"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-7">
+                                        <div class="numbers">
+                                            <p>Average Score</p>
+                                            <div id="average_score"> 0</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="footer">
+                                    <hr />
+                                    <div class="stats">
+                                        <i class="ti-upload"></i> <a href="Assessment.jsp">Perform Assessment</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="card">
+                            <div class="content">
+                                <div class="row">
+                                    <div class="col-xs-5">
+                                        <div class="icon-big icon-danger text-center">
+                                            <i class="ti-world"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-7">
+                                        <div class="numbers">
+                                            <p>Counties Assessed</p>
+                                          <div id="no_counties"> 0</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="footer">
+                                    <hr />
+                                    <div class="stats">
+                                        <i class="ti-upload"></i> <a href="Assessment.jsp">Perform Assessment</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="card">
+                            <div class="content">
+                                <div class="row">
+                                    <div class="col-xs-5">
+                                        <div class="icon-big icon-info text-center">
+                                            <i class="ti-home"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-7">
+                                        <div class="numbers">
+                                            <p>Facilities Assessed</p>
+                                           <div id="no_facilities"> 0</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="footer">
+                                    <hr />
+                                    <div class="stats">
+                                         <i class="ti-upload"></i> <a href="Assessment.jsp">Perform Assessment</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
 		<!--footer here-->
                 <%@include file="footer.jsp" %>
+		</div>
     </div>
-</div>
 
 
 </body>
@@ -86,13 +182,38 @@
     <!-- Paper Dashboard Core javascript and methods for Demo purpose -->
 	<script src="assets/js/paper-dashboard.js"></script>
 
-	<!-- Paper Dashboard DEMO methods, don't include it in your project! -->
-	<script src="assets/js/demo.js"></script>
-
     <script>
         $().ready(function(){
-            demo.initGoogleMaps();
+         dashboard();
         });
+        
+        
+            function dashboard(){
+            $.ajax({
+        url:'dashboard',
+        type:"post",
+        dataType:"json",
+        success:function(raw_data){
+            var assessments,average_score,no_counties,no_facilities;
+             assessments=0,average_score=0,no_counties=0,no_facilities=0;
+        var data=raw_data.data;
+        
+            if( data.assessments!=null){assessments = data.assessments;}
+            if( data.average_score!=null){average_score = data.average_score;}  
+            if( data.no_counties!=null){no_counties = data.no_counties;}  
+            if( data.no_facilities!=null){no_facilities = data.no_facilities;}  
+            
+            average_score = Math.round((average_score*100)/100)+"%"; 
+            
+            $("#assessments").html(assessments);
+            $("#average_score").html(average_score);
+            $("#no_counties").html(no_counties);
+            $("#no_facilities").html(no_facilities);
+           
+    }
+    });
+    }
+    
     </script>
 
 </html>

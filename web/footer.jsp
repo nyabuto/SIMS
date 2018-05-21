@@ -12,30 +12,24 @@
         <title>footer</title>
     </head>
     <body>
-        		<footer class="footer">
+        <footer class="footer">
             <div class="container-fluid">
                 <nav class="pull-left">
                     <ul>
 
                         <li>
-                            <a href="http://www.creative-tim.com">
-                                Creative Tim
-                            </a>
+                           HIV Service Delivery Support Activities (HSDSA) Cluester 2
                         </li>
                         <li>
-                            <a href="http://blog.creative-tim.com">
-                               Blog
-                            </a>
+                          
                         </li>
                         <li>
-                            <a href="http://www.creative-tim.com/license">
-                                Licenses
-                            </a>
+                           
                         </li>
                     </ul>
                 </nav>
 				<div class="copyright pull-right">
-                    &copy; <script>document.write(new Date().getFullYear())</script>, made with <i class="fa fa-heart heart"></i> by <a href="http://www.creative-tim.com">Creative Tim</a>
+                    &copy; <script>document.write(new Date().getFullYear())</script>, USAID || HSDSA Cluster 2 
                 </div>
             </div>
         </footer>
