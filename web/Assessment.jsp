@@ -585,7 +585,7 @@
     function manage_entered(id,selected_val){
         if(id!==20){
        var next=parseInt(id)+1;
-       if(selected_val=="Y"){
+       if((selected_val=="Y" && id!==11) || (selected_val=="N" && id==11 )){
            if(id!="2"){
            $("#indic_response_"+next).attr("disabled", false);
            $("#indic_response_"+next).attr("required", true);

@@ -212,7 +212,6 @@ public class assessment_reports extends HttpServlet {
             "GROUP BY MFLCode,AssessmentDate " +
             "";
        
-        
         conn.pst = conn.conn.prepareStatement(query);
         conn.rs = conn.pst.executeQuery();
         

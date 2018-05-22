@@ -68,12 +68,11 @@ int dg,lg,y,r;
         
 //           average_score
            no_counties=0;
-        String counties_assessed = "SELECT COUNT(DISTINCT(county.CountyID)) AS counties_assessed,county.County AS county_name FROM county " +
-                            "LEFT JOIN district ON county.CountyID=district.CountyID " +
-                            "LEFT JOIN subpartnera ON district.DistrictID=subpartnera.DistrictID " +
-                            "LEFT JOIN assessment ON subpartnera.SubPartnerID=assessment.facility_id " +
-                            "WHERE assessment.id IS NOT NULL " +
-                            "GROUP BY county_name";
+        String counties_assessed = "SELECT COUNT(DISTINCT(county.CountyID)) AS counties_assessed FROM county \n" +
+                                    " LEFT JOIN district ON county.CountyID=district.CountyID \n" +
+                                    " LEFT JOIN subpartnera ON district.DistrictID=subpartnera.DistrictID \n" +
+                                    " LEFT JOIN assessment ON subpartnera.SubPartnerID=assessment.facility_id \n" +
+                                    " WHERE assessment.id IS NOT NULL";
            conn.rs = conn.st.executeQuery(counties_assessed);
          if(conn.rs.next()){
                no_counties = conn.rs.getInt(1);
@@ -82,11 +81,10 @@ int dg,lg,y,r;
         
 //           average_score
            no_facilities=0;
-        String facil_assessed = "SELECT COUNT(DISTINCT(subpartnera.SubPartnerID)) AS facilities_assessed,subpartnera.SubPartnerNom AS facility_name " +
-                                "FROM  subpartnera  " +
-                                "LEFT JOIN assessment ON subpartnera.SubPartnerID=assessment.facility_id " +
-                                "WHERE assessment.id IS NOT NULL " +
-                                "GROUP BY facility_name ";
+        String facil_assessed = "SELECT COUNT(DISTINCT(subpartnera.SubPartnerID)) AS facilities_assessed" +
+                                " FROM  subpartnera  " +
+                                " LEFT JOIN assessment ON subpartnera.SubPartnerID=assessment.facility_id " +
+                                " WHERE assessment.id IS NOT NULL";
            conn.rs = conn.st.executeQuery(facil_assessed);
          if(conn.rs.next()){
                no_facilities = conn.rs.getInt(1);
