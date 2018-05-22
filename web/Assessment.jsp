@@ -461,7 +461,11 @@
              $("#area_"+area_id).html(area_code);
              $("#area_title_"+area_id).html("<b>"+area_code+" "+area_title+"</b><hr>");
              if(area_instructions!=""){
-             $("#area_standard_"+area_id).html("<b>STANDARD:</b> <i>"+area_standard+"</i><hr><b>Instructions:</b> <i>"+area_instructions+"</i><hr>");
+                 var checkbox = "";
+                 if(area_id==2){
+                checkbox = " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>N/A<b> <input type=\"checkbox\" name=\"na\" onclick=\"na_clicked();\" id=\"na\">";
+             }
+             $("#area_standard_"+area_id).html("<b>STANDARD:</b> <i>"+area_standard+"</i><hr><b>Instructions:</b> <i>"+area_instructions+" "+checkbox+"</i> <hr>");
             }
              else{
              $("#area_standard_"+area_id).html("<b>STANDARD:</b> <i>"+area_standard+"</i><hr>");
@@ -556,6 +560,18 @@
             }
     }
     });
+    }
+    
+    function na_clicked(){
+        if($("#na").is(":checked")){
+        $("#indic_response_9").attr("disabled", true);
+        $("#indic_response_9").attr("required", false); 
+           remove_others(8,13,"");
+        }
+        else{
+         $("#indic_response_9").attr("disabled", false);
+         $("#indic_response_9").attr("required", true);   
+        }
     }
     function percART(){
         var id=20;
