@@ -582,17 +582,20 @@
         if(no_charts<50){
           area_indic_score(id,"R","red");
         }
-        if(no_charts>50 && no_charts<70){ 
+        else if(no_charts>=50 && no_charts<70){ 
           area_indic_score(id,"Y","yellow");
         }
-        if(no_charts>70 && no_charts<90){  
+        else if(no_charts>=70 && no_charts<90){  
         area_indic_score(id,"LG","#33d933");
         }
-        if(no_charts>=90){
+        else if(no_charts>=90){
            selected_indicator2(next,"");
            $("#indic_response_"+next).attr("disabled", false);
            $("#indic_response_"+next).attr("required", true);
             selected_indicator2(next,"");
+        }
+        else{
+            
         }
         
 //        remove_others(id,8,selected_val);
@@ -617,6 +620,7 @@
 //         $("#indic_5").attr("required", true);  
 //         $("#indic_6").attr("required", true); 
          selected_indicator2(next,"");
+        area_indic_score(id,"Y","yellow");
        }
        else if(id==8 || id==13 || id==18 || id==21){ 
         area_indic_score(id,"DG","#086508");

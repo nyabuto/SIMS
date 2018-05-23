@@ -168,7 +168,7 @@
                                 <p class="category">HIV Quality Management/Quality Improvement (QM/QI) System [ALL FACILITIES]</p>
                             </div>
                             <div class="content">
-                                <canvas  id="area_1"  height="450" width="450" class="ct-chart ct-perfect-fourth"></canvas>
+                                <canvas  id="area_1"  height="400" width="400" class="ct-chart ct-perfect-fourth"></canvas>
 
                                 <div class="footer">
                                     <div class="chart-legend">
@@ -176,6 +176,7 @@
                                         <i class="fa fa-circle" style="color: #33d933;"></i> L. Green
                                         <i class="fa fa-circle" style="color: yellow;"></i> Yellow
                                         <i class="fa fa-circle " style="color: red;"></i> Red
+                                        <div id="score_1">Score</div>
                                     </div>
                                     
                                 </div>
@@ -197,6 +198,7 @@
                                         <i class="fa fa-circle" style="color: #33d933;"></i> L. Green
                                         <i class="fa fa-circle" style="color: yellow;"></i> Yellow
                                         <i class="fa fa-circle " style="color: red;"></i> Red
+                                        <div id="score_2">Score</div>
                                     </div>
                                     
                                 </div>
@@ -219,6 +221,7 @@
                                         <i class="fa fa-circle" style="color: #33d933;"></i> L. Green
                                         <i class="fa fa-circle" style="color: yellow;"></i> Yellow
                                         <i class="fa fa-circle " style="color: red;"></i> Red
+                                        <div id="score_3">Score</div>
                                     </div>
                                      
                                 </div>
@@ -240,6 +243,7 @@
                                         <i class="fa fa-circle" style="color: #33d933;"></i> L. Green
                                         <i class="fa fa-circle" style="color: yellow;"></i> Yellow
                                         <i class="fa fa-circle " style="color: red;"></i> Red
+                                        <div id="score_4">Score</div>
                                     </div>
                                     
                                 </div>
@@ -318,7 +322,10 @@
             Y = section_score[i].Y;
             R = section_score[i].R;
             var position = i+1;
-      
+//      alert("DG : "+DG+" LG : "+LG+" Y "+Y+" R : "+R);
+      var score = Math.round(((parseInt(DG)+parseInt(LG))*100)/(parseInt(DG)+parseInt(LG)+parseInt(Y)+parseInt(R)))+"%"; 
+
+      $("#score_"+position).html("<b style=\"font-size:20px;\">Average Score: "+score+"</b>");
           var data_chart = {
   labels: ["Dark Green", "Light Green","Yellow","Red"],
   datasets: [{
