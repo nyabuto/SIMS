@@ -327,12 +327,18 @@ public class assessment_reports extends HttpServlet {
     public Double get_score(String a1,String a2,String a3,String a4){
      Double _score; 
      int num = 0;
+     double total_score=4.0;
      if(a1.equals("DG") || a1.equals("LG")){num++;}
      if(a2.equals("DG") || a2.equals("LG")){num++;}
      if(a3.equals("DG") || a3.equals("LG")){num++;}
      if(a4.equals("DG") || a4.equals("LG")){num++;}
      
-     _score =num/4.0;
+     if(a1.equals("")){total_score-=1;}
+     if(a2.equals("")){total_score-=1;}
+     if(a3.equals("")){total_score-=1;}
+     if(a4.equals("")){total_score-=1;}
+     
+     _score =num/total_score;
              System.out.println("a1 : "+a1+" a2 : "+a2+" a3 : "+a3+" a4 : "+a4+" score is : "+num+" and % score is " +_score);
      return _score;
     }
